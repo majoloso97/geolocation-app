@@ -2,6 +2,7 @@ import streamlit as st
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
+import pandas as pd
 
 loc_button = Button(label="Get Location")
 loc_button.js_on_event("button_click", CustomJS(code="""
@@ -21,4 +22,6 @@ result = streamlit_bokeh_events(
 
 if result:
     if "GET_LOCATION" in result:
-        st.write(result.get("GET_LOCATION"))
+        location = pd.DataFrame([result.get("GET_LOCATION")])
+        st.dataframe(location)
+        st.map(location, 15)
